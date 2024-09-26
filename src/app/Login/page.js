@@ -2,6 +2,7 @@
 
 import { useForm } from "react-hook-form";
 import { useRouter } from 'next/navigation';
+// import { getUsuarios } from "@/db";
 
 export default function Login() {
   const {
@@ -12,11 +13,18 @@ export default function Login() {
 
   const router = useRouter(); 
 
-  const onSubmit = (data) => {
-    // Aquí iría la lógica para manejar el inicio de sesión
-    console.log("Intento de inicio de sesión con:", data);
-    router.push("/Home");
-  };
+  // const onSubmit = (data) => {
+  //   // Aquí iría la lógica para manejar el inicio de sesión
+  //   console.log("Intento de inicio de sesión con:", data);
+  //   const response = getUsuarios(data);
+  //   console.log(response);
+  //   if(response.length > 0){
+  //     // router.push("/Home");
+  //   }else{
+  //     console.log("No se encontró el usuario");
+  //   }
+  //   console.log(response);
+  // };
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100">

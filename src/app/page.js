@@ -1,23 +1,16 @@
 "use client";
 
-import { useForm } from "react-hook-form";
-import { useRouter } from 'next/navigation';
+import logicPage from "./logicPage";
+
 
 export default function Login() {
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm();
+  
 
-  const router = useRouter(); 
+  const { onSubmit, register, handleSubmit, errors } = logicPage();
 
-  const onSubmit = (data) => {
-    // Aquí iría la lógica para manejar el inicio de sesión
-    console.log("Intento de inicio de sesión con:", data);
-    router.push("/Home");
-  };
+  
 
+   
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100">
       <div className="bg-white p-8 rounded shadow-md w-96">
