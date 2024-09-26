@@ -1,33 +1,31 @@
 "use client";
 
+import { ToastContainer, toast } from "react-toastify"; 
 import logicPage from "./logicPage";
-
+import 'react-toastify/dist/ReactToastify.css'; // Importar los estilos de toastify
 
 export default function Login() {
   
 
   const { onSubmit, register, handleSubmit, errors } = logicPage();
-
-  
-
    
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100">
       <div className="bg-white p-8 rounded shadow-md w-96">
         <h2 className="text-2xl font-bold mb-4">Iniciar Sesión</h2>
-        <form onSubmit={handleSubmit(onSubmit)}>
+        <form onSubmit={handleSubmit(onSubmit)}> {/* Usar handleFormSubmit */}
           <div className="mb-4">
             <label
-              htmlFor="email"
+              htmlFor="correo"
               className="block text-sm font-medium text-gray-600"
             >
               Correo Electrónico
             </label>
             <input
               type="email"
-              id="email"
+              id="correo"
               className="mt-1 p-2 w-full border rounded-md"
-              {...register("email", {
+              {...register("correo", {
                 required: "El correo electrónico es requerido",
                 pattern: {
                   value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
@@ -35,9 +33,9 @@ export default function Login() {
                 },
               })}
             />
-            {errors.email && (
+            {errors.correo && (
               <p className="text-red-500 text-xs mt-1">
-                {errors.email.message}
+                {errors.correo.message}
               </p>
             )}
           </div>
@@ -49,13 +47,13 @@ export default function Login() {
               Contraseña
             </label>
             <input
-              type="password"
+              type="password" // Cambiar a type="password" para mayor seguridad
               id="password"
               className="mt-1 p-2 w-full border rounded-md"
               {...register("password", {
                 required: "La contraseña es requerida",
                 minLength: {
-                  value: 6,
+                  value: 5, // Cambiar a 6 para coincidir con el mensaje de error
                   message: "La contraseña debe tener al menos 6 caracteres",
                 },
               })}
@@ -69,11 +67,12 @@ export default function Login() {
           <button
             type="submit"
             className="w-full bg-blue-500 text-white p-2 rounded-md hover:bg-blue-600"
-          >  
+          >
             Iniciar Sesión
           </button>
         </form>
       </div>
+      <ToastContainer /> {/* Contenedor de notificaciones */}
     </div>
   );
 }

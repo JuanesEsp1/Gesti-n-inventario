@@ -1,40 +1,64 @@
-import { getUsuarios } from "@/db/db";
 import { useForm } from "react-hook-form";
 import { useRouter } from 'next/navigation';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css'; // Importar los estilos
+import { useEffect } from "react";
 
 const logicPage = () => {
 
     const router = useRouter(); 
 
     const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm();
+        register,
+        handleSubmit,
+        formState: { errors },
+    } = useForm();
 
-
+    // // Inicializar el toast
 
     const onSubmit = async (data) => {
-    // Aquí iría la lógica para manejar el inicio de sesión
-    console.log("Intento de inicio de sesión con:", data);
-    const response = await getUsuarios(data);
-    console.log(response);
-    if(response.length > 0){
-      // router.push("/Home");
-    }else{
-      console.log("No se encontró el usuario");
-    }
-        console.log(response);
+        console.log(data);
+        
+        const payload = {
+            correo: data.correo,
+            password: data.password
+        };
+
+        try {
+            // Hacer la solicitud POST al servidor Express
+            const response = await fetch('http://localhost:3001/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(payload), // Enviar los datos del formulario
+            });
+
+            const result = await response.json();
+
+            if (response.ok) {
+                // Mostrar mensaje de éxito con toast
+                toast.success("¡Inicio de sesión exitoso!");
+                console.log('Usuario autenticado:', result.user);
+                // Redirigir al usuario o guardar un token
+                router.push('/Home'); // Ejemplo de redirección
+            } else {
+                // Mostrar mensaje de error con toast
+                toast.error("Error al iniciar sesión.");
+            }
+        } catch (error) {
+            console.error('Error al realizar el login:', error);
+            // Mostrar mensaje de error del servidor
+            toast.error('Error en el servidor');
+        }
     };
     
-    
     return {
-        getUsuarios,
         onSubmit,
         register,
         handleSubmit,
         errors
-    }
-}
+    };
+};
 
 export default logicPage;
