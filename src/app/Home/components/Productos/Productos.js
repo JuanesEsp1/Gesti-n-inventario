@@ -70,6 +70,24 @@ const Productos = () => {
     } 
   }
 
+  const handleDeleteProduct = async (id) => {
+    try {
+      const response = await fetch(`http://localhost:3001/productos/${id}`, {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
+      if (response.ok) {  
+        console.log('Producto eliminado correctamente');
+      } else {
+        console.error('Error al eliminar el producto');
+      }
+    } catch (error) {
+      console.error('Error al eliminar el producto:', error);
+    }
+  } 
+
 
   return (
     <div className="container mx-auto py-4 flex flex-col gap-4">
@@ -128,7 +146,9 @@ const Productos = () => {
                     className="bg-blue-500 text-lg hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full">
                     <MdEdit />
                   </button>
-                  <button className="bg-red-500 text-lg hover:bg-red-700 text-white font-bold py-2 px-4 rounded-full">
+                  <button
+                    onClick={() => handleDeleteProduct(producto.id)}
+                    className="bg-red-500 text-lg hover:bg-red-700 text-white font-bold py-2 px-4 rounded-full">
                     <MdDelete />
                   </button>
                 </td>
@@ -178,11 +198,18 @@ const Productos = () => {
             required
           />
           <div className="flex justify-end gap-2"> 
-            <button type="button" onClick={() => setIsEditModalOpen(false)} className="bg-red-500 text-white font-bold py-2 px-4 rounded-md">Cancelar</button>
+              <button
+                type="button"
+                onClick={() => setIsEditModalOpen(false)}
+                className="bg-red-500 text-white font-bold py-2 px-4 rounded-md">
+                Cancelar
+              </button>
               <button
                 type="submit"
                 onClick={handleUpdateProduct}
-                className="bg-blue-500 text-white font-bold py-2 px-4 rounded-md">Editar</button>
+                className="bg-blue-500 text-white font-bold py-2 px-4 rounded-md">
+                Editar
+              </button>
           </div>
         </form>
       </Modal>
@@ -228,8 +255,17 @@ const Productos = () => {
             required
           />
           <div className="flex justify-end gap-2"> 
-            <button type="button" onClick={() => setIsModalOpen(false)} className="bg-red-500 text-white font-bold py-2 px-4 rounded-md">Cancelar</button>
-            <button type="submit" className="bg-blue-500 text-white font-bold py-2 px-4 rounded-md">Agregar</button>
+            <button
+              type="button"
+              onClick={() => setIsModalOpen(false)}
+              className="bg-red-500 text-white font-bold py-2 px-4 rounded-md">
+              Cancelar
+            </button>
+            <button
+              type="submit"
+              className="bg-blue-500 text-white font-bold py-2 px-4 rounded-md">
+              Agregar
+            </button>
           </div>
         </form>
       </Modal>

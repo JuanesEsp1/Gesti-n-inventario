@@ -14,7 +14,7 @@ const useProductos = () => {
 
     useEffect(() => {
         getDataInit();
-    }, []);
+    }, [producto]);
 
 const getDataInit = async () => {
   try {
@@ -60,10 +60,6 @@ const getDataInit = async () => {
       console.error('Error al agregar producto:', error);
     }
   };  
-
-
-
-
     
  const formatText = (text) => {
       if (text == null) {
@@ -74,7 +70,6 @@ const getDataInit = async () => {
       }
       return text;
   };
-
 
 
     return {
