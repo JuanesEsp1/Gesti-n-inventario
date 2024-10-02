@@ -18,7 +18,16 @@ const Home = () => {
             <Sidebar isOpen={isOpen} setIsOpen={setIsOpen} />
             <div className="w-full h-screen flex flex-col">
                     <div className="w-full h-28 bg-slate-200">
-                        <div className="w-[400px] h-20 flex items-center pl-6 text-4xl font-semibold text-white bg-[#555e77]"> Seccion de Productos</div>
+                        <div className="w-[400px] h-20 flex items-center pl-6 text-4xl font-semibold text-white bg-gradient-to-r from-[#241435] to-[#a983f6]">
+                            {
+                                isOpen === 1? 'Seccion de Clientes'
+                                    : isOpen === 2? 'Seccion de Inventario'
+                                    : isOpen === 3? 'Seccion de Productos'
+                                    : isOpen === 4? 'Seccion de Usuarios'
+                                    : isOpen === 5? 'Seccion de Ventas'
+                                    : null
+                            }
+                        </div>
                     </div>
                 <div className="w-full h-full ">
                     {
