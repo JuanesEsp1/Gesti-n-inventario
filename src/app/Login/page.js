@@ -1,27 +1,39 @@
 "use client";
-
-import { useForm } from "react-hook-form";
 import { useRouter } from 'next/navigation';
+import { useLogin } from "./useLogin";
+// import { getUsuarios } from "@/db";
 
 export default function Login() {
+
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm();
+  } = useLogin();
+
+
 
   const router = useRouter(); 
 
-  const onSubmit = (data) => {
-    // Aquí iría la lógica para manejar el inicio de sesión
-    console.log("Intento de inicio de sesión con:", data);
-    router.push("/Home");
-  };
+  // const onSubmit = (data) => {
+  //   // Aquí iría la lógica para manejar el inicio de sesión
+  //   console.log("Intento de inicio de sesión con:", data);
+  //   const response = getUsuarios(data);
+  //   console.log(response);
+  //   if(response.length > 0){
+  //     // router.push("/Home");
+  //   }else{
+  //     console.log("No se encontró el usuario");
+  //   }
+  //   console.log(response);
+  // };
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100">
       <div className="bg-white p-8 rounded shadow-md w-96">
-        <h2 className="text-2xl font-bold mb-4">Iniciar Sesión</h2>
+        <div className=" flex justify-center items-center">
+          <div className="text-2xl font-bold mb-4">Iniciar Sesión</div>
+        </div>
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className="mb-4">
             <label
