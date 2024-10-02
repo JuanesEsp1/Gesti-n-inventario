@@ -2,9 +2,11 @@ import { useForm } from "react-hook-form";
 import { useRouter } from 'next/navigation';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css'; // Importar los estilos
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 const logicPage = () => {
+
+    const [showPassword, setShowPassword] = useState(false);
 
     const router = useRouter(); 
 
@@ -57,7 +59,9 @@ const logicPage = () => {
         onSubmit,
         register,
         handleSubmit,
-        errors
+        errors,
+        showPassword,
+        setShowPassword
     };
 };
 

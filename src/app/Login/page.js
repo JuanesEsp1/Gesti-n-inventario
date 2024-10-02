@@ -1,15 +1,17 @@
 "use client";
-
-import { useForm } from "react-hook-form";
 import { useRouter } from 'next/navigation';
+import { useLogin } from "./useLogin";
 // import { getUsuarios } from "@/db";
 
 export default function Login() {
+
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm();
+  } = useLogin();
+
+
 
   const router = useRouter(); 
 
@@ -29,7 +31,9 @@ export default function Login() {
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100">
       <div className="bg-white p-8 rounded shadow-md w-96">
-        <h2 className="text-2xl font-bold mb-4">Iniciar Sesión</h2>
+        <div className=" flex justify-center items-center">
+          <div className="text-2xl font-bold mb-4">Iniciar Sesión</div>
+        </div>
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className="mb-4">
             <label
