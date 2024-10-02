@@ -35,7 +35,8 @@ export default function Login() {
                 <input 
                   type="email" 
                   id="correo" 
-                  class="block py-2.5 px-2 w-full text-lg text-white bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 peer" 
+                  autoComplete="off"
+                  class="block py-2.5 px-2 w-full text-lg text-white bg-transparent border-0 border-b-[1px] border-gray-300 appearance-none focus:outline-none focus:ring-0 peer" 
                   placeholder=" " 
                   {...register("correo", {
                     required: "El correo electrónico es requerido",
@@ -61,7 +62,8 @@ export default function Login() {
                 <input 
                   type={showPassword ? "text" : "password"} 
                   id="password" 
-                  class="block py-2.5 px-2 pr-9 w-full text-lg text-white bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 peer" 
+                  autoComplete="off"
+                  class="block py-2.5 px-2 pr-9 w-full text-lg text-white bg-transparent border-0 border-b-[1px] border-gray-300 appearance-none focus:outline-none focus:ring-0 peer" 
                   placeholder=" " 
                   {...register("password", {
                     required: "La contraseña es requerida",
