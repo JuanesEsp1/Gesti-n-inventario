@@ -32,13 +32,13 @@ const Productos = () => {
 
 
   return (
-    <div className="container mx-auto py-4 flex flex-col gap-4">
+    <div className="container mx-auto pt-6 flex flex-col gap-4">
       <div className="w-full flex flex-row gap-2 items-center">
         <div className="w-full flex flex-row justify-between gap-2 items-center">
           <div className="text-2xl font-bold flex flex-row gap-2 items-center mb-2">
             <div>Agregar Productos</div>
             <button
-              className="bg-emerald-500 text-white font-bold py-2 px-4 rounded-md"
+              className="bg-[#7F88D5] text-white font-bold py-2 px-4 rounded-md"
               onClick={() => setIsModalOpen(true)}>
               <MdAdd />
             </button>
@@ -55,7 +55,7 @@ const Productos = () => {
           />
         </div>
       </div>
-      <div className="min-w-full overflow-y-auto h-[70vh] shadow-lg shadow-slate-300 rounded-lg">
+      <div className="min-w-full overflow-y-auto h-[70vh] shadow-lg mt-2 shadow-slate-300 rounded-lg">
         <table className="min-w-full table-auto bg-white  rounded-lg">
           <thead>
             <tr className="bg-gray-200 text-left text-gray-600 uppercase text-sm leading-normal">
@@ -84,7 +84,7 @@ const Productos = () => {
                 <td className="py-3 px-6 text-center">{producto.cantidad}</td>
                 <td className="py-3 px-6 text-center">
                   {producto.activo ? (
-                    <span className="bg-green-200 text-green-700 py-2 px-4 rounded-full text-md">
+                    <span className="bg-[#99A5E0] text-white py-2 px-4 rounded-full text-md">
                       Sí
                     </span>
                   ) : (
