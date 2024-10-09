@@ -6,9 +6,9 @@ const Sidebar = ({isOpen, setIsOpen}) => {
  
 
     return (
-        <div className="bg-gradient-to-b from-[#241435] to-[#a983f6] text-white h-screen w-20 flex flex-col justify-between items-center py-4">
+        <div className="bg-[#3C3E6C] text-white h-screen w-20 flex flex-col justify-between items-center py-4">
             <div className='w-full h-full max-h-[400px] text-xl flex flex-col items-center justify-center'>
-                <div className="w-full h-full flex items-center justify-center mb-4 hover:bg-gray-700  cursor-pointer">
+                <div className="w-full h-full flex items-center justify-center mb-4 hover:bg-white hover:text-[#54307f]  cursor-pointer">
                     logo
                 </div>
                 <div title='Clientes' className='w-full h-full'>
