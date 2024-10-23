@@ -170,10 +170,7 @@ const useProductos = () => {
       return text;
   };
 
-
-
   /* ---------- alertas----------- */
-
 
   // alerta de eliminación  
   const alertDelete = (id, nombre) => {
@@ -223,9 +220,6 @@ const useProductos = () => {
       icon: "warning"
     });
   }
-
-
-
 
     return {
       producto,
