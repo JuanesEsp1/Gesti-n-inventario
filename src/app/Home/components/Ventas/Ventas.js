@@ -1,9 +1,5 @@
 'use client'
 import useProductos from "../Productos/useProductos";
-import { MdEdit } from "react-icons/md";
-import { MdDelete } from "react-icons/md";
-import { MdAdd } from "react-icons/md";
-import Modal from "../../../components/modal/Modal"
 import { FiSearch } from "react-icons/fi"
 
 const Ventas = () => {
@@ -79,12 +75,9 @@ const Ventas = () => {
                       <button
                         onClick={() => handleEditProduct(producto.id)}
                         className="bg-blue-500 text-lg hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full">
-                        <MdEdit />
-                      </button>
-                      <button
-                        onClick={() => alertDelete(producto.id, producto.nombre)}
-                        className="bg-red-500 text-lg hover:bg-red-700 text-white font-bold py-2 px-4 rounded-full">
-                        <MdDelete />
+													<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="size-4">
+														<path d="M8.75 3.75a.75.75 0 0 0-1.5 0v3.5h-3.5a.75.75 0 0 0 0 1.5h3.5v3.5a.75.75 0 0 0 1.5 0v-3.5h3.5a.75.75 0 0 0 0-1.5h-3.5v-3.5Z" />
+													</svg>
                       </button>
                     </td>
                   </tr>
@@ -96,125 +89,25 @@ const Ventas = () => {
         <div className="w-[30%] flex flex-col items-center bg-[#f3f4f7] rounded-lg shadow-lg ">
           <div className="text-3xl font-semibold pt-4">Carrito de compras</div>
           <div className="w-full flex flex-col gap-5 pt-10 px-4">
-						<div className="w-full bg-white shadow-lg rounded-lg flex">
-							Nombre del producto
+						<div className="w-full bg-white shadow-lg rounded-lg flex justify-between py-3 px-2">
+							<div className="font-medium">Nombre del producto</div>
+							<div className="flex flex-row gap-3">
+								<div className="w-full flex justify-center items-center bg-red-300 px-1 rounded-lg cursor-pointer">
+									<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="size-4 text-red-600">
+										<path d="M3.75 7.25a.75.75 0 0 0 0 1.5h8.5a.75.75 0 0 0 0-1.5h-8.5Z" />
+									</svg>
+								</div>
+								<div className="w-full bg-slate-100 rounded-lg font-medium shadow-lg px-2">100</div>
+								<div className="w-full flex justify-center items-center bg-emerald-300 px-1 rounded-lg cursor-pointer">
+									<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="size-4 text-emerald-600">
+										<path d="M8.75 3.75a.75.75 0 0 0-1.5 0v3.5h-3.5a.75.75 0 0 0 0 1.5h3.5v3.5a.75.75 0 0 0 1.5 0v-3.5h3.5a.75.75 0 0 0 0-1.5h-3.5v-3.5Z" />
+									</svg>
+								</div>
+							</div>
 						</div>			
           </div>
         </div>
       </div>
-
-      {isEditModalOpen === true ? (
-        <Modal isOpen={isEditModalOpen} onClose={() => setIsEditModalOpen(false)}>
-          <h2 className="text-2xl font-bold mb-2">Editar Producto</h2>
-          <div className="w-full h-[1px] bg-gray-300 mb-3"></div>
-          <form
-            className="w-[500px]  flex flex-col justify-center gap-4 "
-            onSubmit={handleUpdateProduct}>
-            <input
-              className="p-2 border border-gray-300 rounded-md outline-none"
-              type="text"
-              placeholder="Nombre"
-              value={editProduct.nombre}
-              onChange={(e) => setEditProduct({ ...editProduct, nombre: e.target.value })}
-              required
-            />
-            <input
-              className="p-2 border border-gray-300 rounded-md outline-none"
-              type="text"
-              placeholder="Descripción"
-              value={editProduct.descripcion}
-              onChange={(e) => setEditProduct({ ...editProduct, descripcion: e.target.value })}
-              required
-            />
-            <input
-              className="p-2 border border-gray-300 rounded-md outline-none"
-              type="number"
-              placeholder="Precio"
-              value={editProduct.precio}
-              onChange={(e) => setEditProduct({ ...editProduct, precio: e.target.value })}
-              required
-            />
-            <input
-              className="p-2 border border-gray-300 rounded-md outline-none"
-              type="number"
-              placeholder="Cantidad"
-              value={editProduct.cantidad}
-              onChange={(e) => setEditProduct({ ...editProduct, cantidad: e.target.value })}
-              required
-            />
-            <div className="flex justify-end gap-2">
-              <button
-                type="button"
-                onClick={() => setIsEditModalOpen(false)}
-                className="bg-red-500 text-white font-bold py-2 px-4 rounded-md">
-                Cancelar
-              </button>
-              <button
-                type="submit"
-                onClick={handleUpdateProduct}
-                className="bg-blue-500 text-white font-bold py-2 px-4 rounded-md">
-                Editar
-              </button>
-            </div>
-          </form>
-        </Modal>
-      ) :
-        null
-      }
-
-      <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
-        <h2 className="text-2xl font-bold mb-2">Agregar Producto</h2>
-        <div className="w-full h-[1px] bg-gray-300 mb-3"></div>
-        <form
-          className="w-[500px]  flex flex-col justify-center gap-4 "
-          onSubmit={handleAddProduct}>
-          <input
-            className="p-2 border border-gray-300 rounded-md outline-none"
-            type="text"
-            placeholder="Nombre"
-            value={newProduct.nombre}
-            onChange={(e) => setNewProduct({ ...newProduct, nombre: e.target.value })} required
-          />
-          <input
-            className="p-2 border border-gray-300 rounded-md outline-none"
-            type="text"
-            placeholder="Descripción"
-            value={newProduct.descripcion}
-            onChange={(e) => setNewProduct({ ...newProduct, descripcion: e.target.value })}
-            required
-          />
-          <input
-            className="p-2 border border-gray-300 rounded-md outline-none"
-            type="number"
-            placeholder="Precio"
-            value={newProduct.precio}
-            onChange={(e) => setNewProduct({ ...newProduct, precio: e.target.value })}
-            required
-          />
-          <input
-            className="p-2 border border-gray-300 rounded-md outline-none "
-            type="number"
-            placeholder="Cantidad"
-            value={newProduct.cantidad}
-            onChange={(e) => setNewProduct({ ...newProduct, cantidad: e.target.value })}
-            required
-          />
-          <div className="flex justify-end gap-2">
-            <button
-              type="button"
-              onClick={() => setIsModalOpen(false)}
-              className="bg-red-500 text-white font-bold py-2 px-4 rounded-md">
-              Cancelar
-            </button>
-            <button
-              type="submit"
-              className="bg-blue-500 text-white font-bold py-2 px-4 rounded-md">
-              Agregar
-            </button>
-          </div>
-        </form>
-      </Modal>
-
     </div>
   )
 }
