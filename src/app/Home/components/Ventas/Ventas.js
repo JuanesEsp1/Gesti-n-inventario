@@ -1,29 +1,20 @@
 'use client'
-import useProductos from "../Productos/useProductos";
 import { FiSearch } from "react-icons/fi"
-
+import { useVentas } from "./useVentas";
+import ProductBadge from "./components/productBadge/ProductBadge";
 const Ventas = () => {
 
   const {
-    producto,
-    formatText,
+    count,
     handleAddProduct,
-    isModalOpen,
-    setIsModalOpen,
-    newProduct,
-    setNewProduct,
-    handleUpdateProduct,
-    handleDeleteProduct,
-    handleEditProduct,
-    isEditModalOpen,
-    setIsEditModalOpen,
-    editProduct,
-    setEditProduct,
-    busqueda,
-    setBusqueda,
+    handleRemoveProduct,
+    formatText,
     productosFiltrados,
-    alertDelete
-  } = useProductos();
+    setBusqueda,
+    busqueda,
+    addProduct,
+    productosCarrito
+  } = useVentas();
 
   return (
     <div className="container mx-auto pt-6 flex">
@@ -73,7 +64,7 @@ const Ventas = () => {
                     <td className="py-3 px-6 text-center">{producto.cantidad}</td>
                     <td className="py-3 px-6 text-center flex justify-center gap-2">
                       <button
-                        onClick={() => handleEditProduct(producto.id)}
+                        onClick={() => addProduct(producto.id)}
                         className="bg-blue-500 text-lg hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full">
 													<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="size-4">
 														<path d="M8.75 3.75a.75.75 0 0 0-1.5 0v3.5h-3.5a.75.75 0 0 0 0 1.5h3.5v3.5a.75.75 0 0 0 1.5 0v-3.5h3.5a.75.75 0 0 0 0-1.5h-3.5v-3.5Z" />
@@ -88,23 +79,10 @@ const Ventas = () => {
         </div>
         <div className="w-[30%] flex flex-col items-center bg-[#f3f4f7] rounded-lg shadow-lg ">
           <div className="text-3xl font-semibold pt-4">Carrito de compras</div>
-          <div className="w-full flex flex-col gap-5 pt-10 px-4">
-						<div className="w-full bg-white shadow-lg rounded-lg flex justify-between py-3 px-2">
-							<div className="font-medium">Nombre del producto</div>
-							<div className="flex flex-row gap-3">
-								<div className="w-full flex justify-center items-center bg-red-300 px-1 rounded-lg cursor-pointer">
-									<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="size-4 text-red-600">
-										<path d="M3.75 7.25a.75.75 0 0 0 0 1.5h8.5a.75.75 0 0 0 0-1.5h-8.5Z" />
-									</svg>
-								</div>
-								<div className="w-full bg-slate-100 rounded-lg font-medium shadow-lg px-2">100</div>
-								<div className="w-full flex justify-center items-center bg-emerald-300 px-1 rounded-lg cursor-pointer">
-									<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="size-4 text-emerald-600">
-										<path d="M8.75 3.75a.75.75 0 0 0-1.5 0v3.5h-3.5a.75.75 0 0 0 0 1.5h3.5v3.5a.75.75 0 0 0 1.5 0v-3.5h3.5a.75.75 0 0 0 0-1.5h-3.5v-3.5Z" />
-									</svg>
-								</div>
-							</div>
-						</div>			
+          <div className="w-full flex flex-col gap-5 pt-10 px-4 overflow-y-auto h-[70vh]">
+							{productosCarrito.map((producto) => (
+								<ProductBadge handleAddProduct={handleAddProduct} handleRemoveProduct={handleRemoveProduct} count={count[producto.id]} producto={producto} />
+							))}		
           </div>
         </div>
       </div>
