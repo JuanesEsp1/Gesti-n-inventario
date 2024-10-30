@@ -7,6 +7,7 @@ export const useVentas = () => {
     const [productosFiltrados, setProductosFiltrados] = useState(producto);
     const [refreshData, setRefreshData] = useState(false);
     const [productosCarrito, setProductosCarrito] = useState([]);
+    const [detallesCarrito, setDetallesCarrito] = useState([]);
 
     useEffect(() => {
         getDataInit();
@@ -15,6 +16,7 @@ export const useVentas = () => {
     useEffect(() => {
         getDataInit();
     }, [refreshData]);
+
 
     useEffect(() => {
         const resultados = producto.filter(producto =>
@@ -69,6 +71,16 @@ export const useVentas = () => {
         }));
         
         setProductosCarrito([...productosCarrito, { ...productoNuevo, cantidadCarrito: 1 }]);
+        
+        // Añadir detalles del producto al estado de detallesCarrito
+        setDetallesCarrito([...detallesCarrito, {
+            id: idProducto,
+            cantidad: 1,
+            stock: productoNuevo.cantidad,
+            valor: productoNuevo.valor // Asegúrate de que el producto tenga un campo 'valor'
+        }]);
+
+        console.log('productos del carrito: ', productosCarrito);
     }
 
     const handleAddProduct = (idProducto) => {
@@ -92,6 +104,15 @@ export const useVentas = () => {
                     : producto
             )
         );
+
+        // Actualizar detalles del producto en el estado de detallesCarrito
+        setDetallesCarrito(prevDetalles => 
+            prevDetalles.map(detalle => 
+                detalle.id === idProducto 
+                    ? { ...detalle, cantidad: cantidadActualCarrito + 1 }
+                    : detalle
+            )
+        );
     }
     
     const handleRemoveProduct = (idProducto) => {
@@ -106,6 +127,11 @@ export const useVentas = () => {
                 delete newCount[idProducto];
                 return newCount;
             });
+
+            // Remover el producto de detallesCarrito
+            setDetallesCarrito(prevDetalles => 
+                prevDetalles.filter(detalle => detalle.id !== idProducto)
+            );
         } else {
             setCount(prevCount => ({
                 ...prevCount,
@@ -117,6 +143,15 @@ export const useVentas = () => {
                     producto.id === idProducto 
                         ? { ...producto, cantidadCarrito: cantidadActualCarrito - 1 }
                         : producto
+                )
+            );
+
+            // Actualizar la cantidad en detallesCarrito
+            setDetallesCarrito(prevDetalles => 
+                prevDetalles.map(detalle => 
+                    detalle.id === idProducto 
+                        ? { ...detalle, cantidad: cantidadActualCarrito - 1 }
+                        : detalle
                 )
             );
         }
@@ -141,6 +176,7 @@ export const useVentas = () => {
         setBusqueda,
         productosFiltrados,
         addProduct,
-        productosCarrito
+        productosCarrito,
+        detallesCarrito
     }
 }
