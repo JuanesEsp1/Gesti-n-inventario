@@ -147,7 +147,7 @@ const Ventas = () => {
         </div>
         <div className="w-[30%] flex flex-col items-center bg-[#f3f4f7] rounded-lg shadow-lg ">
           <div className="text-3xl font-semibold pt-4">Carrito de compras</div>
-          <div className="w-full flex flex-col gap-5 pt-10 px-4 overflow-y-auto h-[70vh]">
+          <div className="w-full flex flex-col gap-5 pt-10 px-4 overflow-y-auto h-[55vh] pb-10">
 							{productosCarrito.map((producto) => (
 								<ProductBadge handleAddProduct={handleAddProduct} handleRemoveProduct={handleRemoveProduct} count={count[producto.id]} producto={producto} />
 							))}		

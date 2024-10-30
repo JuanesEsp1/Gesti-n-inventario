@@ -9,6 +9,16 @@ export const useVentas = () => {
     const [productosCarrito, setProductosCarrito] = useState([]);
     const [detallesCarrito, setDetallesCarrito] = useState([]);
 
+    //Paginacion de la pagina
+    const [paginaActual, setPaginaActual] = useState(1);
+    const productosPorPagina = 8; 
+
+    //Cantidad de productos por pagina
+    const indiceUltimo = paginaActual * productosPorPagina;
+    const indicePrimero = indiceUltimo - productosPorPagina;
+    const productosActuales = productosFiltrados.slice(indicePrimero, indiceUltimo);
+    const totalPaginas = Math.ceil(productosFiltrados.length / productosPorPagina);
+
     useEffect(() => {
         getDataInit();
     }, []);
@@ -17,6 +27,9 @@ export const useVentas = () => {
         getDataInit();
     }, [refreshData]);
 
+    useEffect(() => {
+        console.log('productosCarrito: ', productosCarrito);
+    }, [productosCarrito]);
 
     useEffect(() => {
         const resultados = producto.filter(producto =>
@@ -167,24 +180,10 @@ export const useVentas = () => {
         return text;
     };
 
-    // paginador
-    // ... otros estados ...
-    const [paginaActual, setPaginaActual] = useState(1);
-    const productosPorPagina = 8; // Ajusta este número según necesites
-
-    // Calcular productos para la página actual
-    const indiceUltimo = paginaActual * productosPorPagina;
-    const indicePrimero = indiceUltimo - productosPorPagina;
-    const productosActuales = productosFiltrados.slice(indicePrimero, indiceUltimo);
-    const totalPaginas = Math.ceil(productosFiltrados.length / productosPorPagina);
-
     const cambiarPagina = (numeroPagina) => {
         setPaginaActual(numeroPagina);
     };
-
-
-
-
+    
     return {
         count,
         handleAddProduct,
