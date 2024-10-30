@@ -1,4 +1,6 @@
 'use client'
+import Image from 'next/image';
+import logo from '../../../../asset/imgs/logo2.svg';
 import { FaShoppingCart, FaUsers, FaCalculator, FaUser, FaShoppingBasket, FaCog, FaClipboardList } from 'react-icons/fa';
 
 const Sidebar = ({isOpen, setIsOpen}) => {
@@ -6,10 +8,13 @@ const Sidebar = ({isOpen, setIsOpen}) => {
  
 
     return (
-        <div className="bg-[#3C3E6C] text-white h-screen w-20 flex flex-col justify-between items-center py-4">
+        <div className="bg-[#3C3E6C] text-white h-screen w-20 flex flex-col justify-between items-center py-2">
             <div className='w-full h-full max-h-[400px] text-xl flex flex-col items-center justify-center'>
-                <div className="w-full h-full flex items-center justify-center mb-4 hover:bg-white hover:text-[#54307f]  cursor-pointer">
-                    logo
+                <div className="w-full h-full flex items-center justify-center mb-4 hover:text-[#54307f] cursor-pointer">
+                    <Image
+                        src={logo}
+                        className='w-full h-auto'
+                    />
                 </div>
                 <div title='Clientes' className='w-full h-full'>
                     <div onClick={()=>setIsOpen(1)}  className={`w-full h-full flex items-center justify-center mb-4 hover:bg-slate-50 cursor-pointer hover:text-[#54307f] ${isOpen === 1 ? 'bg-slate-50 text-[#54307f]' : ''}`}>
