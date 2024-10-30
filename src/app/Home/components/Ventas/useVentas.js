@@ -167,6 +167,24 @@ export const useVentas = () => {
         return text;
     };
 
+    // paginador
+    // ... otros estados ...
+    const [paginaActual, setPaginaActual] = useState(1);
+    const productosPorPagina = 8; // Ajusta este número según necesites
+
+    // Calcular productos para la página actual
+    const indiceUltimo = paginaActual * productosPorPagina;
+    const indicePrimero = indiceUltimo - productosPorPagina;
+    const productosActuales = productosFiltrados.slice(indicePrimero, indiceUltimo);
+    const totalPaginas = Math.ceil(productosFiltrados.length / productosPorPagina);
+
+    const cambiarPagina = (numeroPagina) => {
+        setPaginaActual(numeroPagina);
+    };
+
+
+
+
     return {
         count,
         handleAddProduct,
@@ -177,6 +195,9 @@ export const useVentas = () => {
         productosFiltrados,
         addProduct,
         productosCarrito,
-        detallesCarrito
+        productosActuales,
+        paginaActual,
+        cambiarPagina,
+        totalPaginas
     }
 }
