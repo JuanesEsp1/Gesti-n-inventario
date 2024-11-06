@@ -18,7 +18,8 @@ const Ventas = () => {
     productosActuales,
     paginaActual,
     cambiarPagina,
-    totalPaginas
+    totalPaginas,
+    total
   } = useVentas();
 
   return (
@@ -151,6 +152,10 @@ const Ventas = () => {
 							{productosCarrito.map((producto) => (
 								<ProductBadge handleAddProduct={handleAddProduct} handleRemoveProduct={handleRemoveProduct} count={count[producto.id]} producto={producto} />
 							))}		
+          </div>
+          <div className="w-full flex justify-center flex-col gap-5 px-4">
+            <div className="w-full text-2xl flex justify-center font-semibold">Total: ${total.toFixed(2)}</div>
+            <button className=" w-full bg-[#7F88D5]/90 hover:bg-[#7F88D5] text-white p-2 rounded-lg">Realizar venta</button>
           </div>
         </div>
       </div>

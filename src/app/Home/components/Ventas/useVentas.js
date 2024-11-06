@@ -8,7 +8,7 @@ export const useVentas = () => {
     const [refreshData, setRefreshData] = useState(false);
     const [productosCarrito, setProductosCarrito] = useState([]);
     const [detallesCarrito, setDetallesCarrito] = useState([]);
-
+    const [total, setTotal] = useState(0);
     //Paginacion de la pagina
     const [paginaActual, setPaginaActual] = useState(1);
     const productosPorPagina = 8; 
@@ -90,10 +90,13 @@ export const useVentas = () => {
             id: idProducto,
             cantidad: 1,
             stock: productoNuevo.cantidad,
-            valor: productoNuevo.valor // Asegúrate de que el producto tenga un campo 'valor'
+            valor: productoNuevo.precio
         }]);
 
-        console.log('productos del carrito: ', productosCarrito);
+        // Calcular el nuevo total
+        setTotal(prevTotal => prevTotal + parseFloat(productoNuevo.precio));
+
+        console.log('total: ', total);
     }
 
     const handleAddProduct = (idProducto) => {
@@ -126,10 +129,14 @@ export const useVentas = () => {
                     : detalle
             )
         );
+
+        // Calcular el nuevo total
+        setTotal(prevTotal => prevTotal + parseFloat(productoActual.precio));
     }
     
     const handleRemoveProduct = (idProducto) => {
         const cantidadActualCarrito = count[idProducto];
+        const productoActual = producto.find(p => p.id === idProducto);
     
         if (cantidadActualCarrito === 1) {
             setProductosCarrito(prevProductos => 
@@ -145,6 +152,9 @@ export const useVentas = () => {
             setDetallesCarrito(prevDetalles => 
                 prevDetalles.filter(detalle => detalle.id !== idProducto)
             );
+
+            // Calcular el nuevo total
+            setTotal(prevTotal => prevTotal - parseFloat(productoActual.precio));
         } else {
             setCount(prevCount => ({
                 ...prevCount,
@@ -167,6 +177,9 @@ export const useVentas = () => {
                         : detalle
                 )
             );
+
+            // Calcular el nuevo total
+            setTotal(prevTotal => prevTotal - parseFloat(productoActual.precio));
         }
     }
 
@@ -197,6 +210,7 @@ export const useVentas = () => {
         productosActuales,
         paginaActual,
         cambiarPagina,
-        totalPaginas
+        totalPaginas,
+        total
     }
 }
