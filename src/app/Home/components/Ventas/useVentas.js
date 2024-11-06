@@ -7,6 +7,17 @@ export const useVentas = () => {
     const [productosFiltrados, setProductosFiltrados] = useState(producto);
     const [refreshData, setRefreshData] = useState(false);
     const [productosCarrito, setProductosCarrito] = useState([]);
+    const [detallesCarrito, setDetallesCarrito] = useState([]);
+    const [total, setTotal] = useState(0);
+    //Paginacion de la pagina
+    const [paginaActual, setPaginaActual] = useState(1);
+    const productosPorPagina = 8; 
+
+    //Cantidad de productos por pagina
+    const indiceUltimo = paginaActual * productosPorPagina;
+    const indicePrimero = indiceUltimo - productosPorPagina;
+    const productosActuales = productosFiltrados.slice(indicePrimero, indiceUltimo);
+    const totalPaginas = Math.ceil(productosFiltrados.length / productosPorPagina);
 
     useEffect(() => {
         getDataInit();
@@ -15,6 +26,10 @@ export const useVentas = () => {
     useEffect(() => {
         getDataInit();
     }, [refreshData]);
+
+    useEffect(() => {
+        console.log('productosCarrito: ', productosCarrito);
+    }, [productosCarrito]);
 
     useEffect(() => {
         const resultados = producto.filter(producto =>
@@ -69,6 +84,19 @@ export const useVentas = () => {
         }));
         
         setProductosCarrito([...productosCarrito, { ...productoNuevo, cantidadCarrito: 1 }]);
+        
+        // Añadir detalles del producto al estado de detallesCarrito
+        setDetallesCarrito([...detallesCarrito, {
+            id: idProducto,
+            cantidad: 1,
+            stock: productoNuevo.cantidad,
+            valor: productoNuevo.precio
+        }]);
+
+        // Calcular el nuevo total
+        setTotal(prevTotal => prevTotal + parseFloat(productoNuevo.precio));
+
+        console.log('total: ', total);
     }
 
     const handleAddProduct = (idProducto) => {
@@ -92,10 +120,23 @@ export const useVentas = () => {
                     : producto
             )
         );
+
+        // Actualizar detalles del producto en el estado de detallesCarrito
+        setDetallesCarrito(prevDetalles => 
+            prevDetalles.map(detalle => 
+                detalle.id === idProducto 
+                    ? { ...detalle, cantidad: cantidadActualCarrito + 1 }
+                    : detalle
+            )
+        );
+
+        // Calcular el nuevo total
+        setTotal(prevTotal => prevTotal + parseFloat(productoActual.precio));
     }
     
     const handleRemoveProduct = (idProducto) => {
         const cantidadActualCarrito = count[idProducto];
+        const productoActual = producto.find(p => p.id === idProducto);
     
         if (cantidadActualCarrito === 1) {
             setProductosCarrito(prevProductos => 
@@ -106,6 +147,14 @@ export const useVentas = () => {
                 delete newCount[idProducto];
                 return newCount;
             });
+
+            // Remover el producto de detallesCarrito
+            setDetallesCarrito(prevDetalles => 
+                prevDetalles.filter(detalle => detalle.id !== idProducto)
+            );
+
+            // Calcular el nuevo total
+            setTotal(prevTotal => prevTotal - parseFloat(productoActual.precio));
         } else {
             setCount(prevCount => ({
                 ...prevCount,
@@ -119,6 +168,18 @@ export const useVentas = () => {
                         : producto
                 )
             );
+
+            // Actualizar la cantidad en detallesCarrito
+            setDetallesCarrito(prevDetalles => 
+                prevDetalles.map(detalle => 
+                    detalle.id === idProducto 
+                        ? { ...detalle, cantidad: cantidadActualCarrito - 1 }
+                        : detalle
+                )
+            );
+
+            // Calcular el nuevo total
+            setTotal(prevTotal => prevTotal - parseFloat(productoActual.precio));
         }
     }
 
@@ -132,24 +193,10 @@ export const useVentas = () => {
         return text;
     };
 
-    // paginador
-    // ... otros estados ...
-    const [paginaActual, setPaginaActual] = useState(1);
-    const productosPorPagina = 8; // Ajusta este número según necesites
-
-    // Calcular productos para la página actual
-    const indiceUltimo = paginaActual * productosPorPagina;
-    const indicePrimero = indiceUltimo - productosPorPagina;
-    const productosActuales = productosFiltrados.slice(indicePrimero, indiceUltimo);
-    const totalPaginas = Math.ceil(productosFiltrados.length / productosPorPagina);
-
     const cambiarPagina = (numeroPagina) => {
         setPaginaActual(numeroPagina);
     };
-
-
-
-
+    
     return {
         count,
         handleAddProduct,
@@ -163,6 +210,7 @@ export const useVentas = () => {
         productosActuales,
         paginaActual,
         cambiarPagina,
-        totalPaginas
+        totalPaginas,
+        total
     }
 }
