@@ -10,15 +10,36 @@ import useUsuarios from "./useUsuarios";
 const Usuarios = () => {
 
    const {
-      getUsersData,
+      usuario,
+      formatText,
+      handleAddUsuario,
+      isModalOpen,
+      setIsModalOpen,
+      newUsuario,
+      setNewUsuario,
+      handleUpdateUsuario,
+      handleDeleteUsuario,
+      handleEditUsuario,
+      isEditModalOpen,
+      setIsEditModalOpen,
+      editUsuario,
+      setEditUsuario,
+      busqueda,
+      setBusqueda,
+      usuariosFiltrados,
+      alertDelete,
+      usuariosActuales,
+      paginaActual,
+      cambiarPagina,
+      totalPaginas,
     } = useUsuarios();
 
    return (
       <div className="container mx-auto pt-6 flex flex-col gap-4">
-         {/* <div className="w-full flex flex-row gap-2 items-center">
+         <div className="w-full flex flex-row gap-2 items-center">
             <div className="w-full flex flex-row justify-between gap-2 items-center">
                <div className="text-2xl font-bold flex flex-row gap-2 items-center mb-2">
-                  <div>Agregar usuario</div>
+                  <div>Agregar Usuarios</div>
                   <button
                      className="bg-[#7F88D5] text-white font-bold py-2 px-4 rounded-md"
                      onClick={() => setIsModalOpen(true)}>
@@ -44,9 +65,9 @@ const Usuarios = () => {
                      <th className="py-3 px-6">ID</th>
                      <th className="py-3 px-6">Nombre</th>
                      <th className="py-3 px-6">Correo</th>
+                     <th className="py-3 px-6">Rol</th>
                      <th className="py-3 px-6">Fecha de Registro</th>
                      <th className="py-3 px-6">Activo</th>
-                     <th className="py-3 px-6">Rol</th>
                      <th className="py-3 px-6">Acciones</th>
                   </tr>
                </thead>
@@ -61,9 +82,8 @@ const Usuarios = () => {
                         </td>
                         <td className="py-3 px-6 text-left">{usuario.nombre}</td>
                         <td className="py-3 px-6 text-left">{usuario.correo}</td>
-                        <td className="py-3 px-6 text-center">
-                           {new Date(usuario.fechaRegistro).toLocaleDateString()}
-                        </td>
+                        <td className="py-3 px-6 text-left">{usuario.rol}</td>
+                        <td className="py-3 px-6 text-center">{new Date(usuario.fecha_registro).toLocaleDateString()}</td>
                         <td className="py-3 px-6 text-center">
                            {usuario.activo ? (
                               <span className="bg-[#99A5E0] text-white py-2 px-4 rounded-full text-md">
@@ -75,10 +95,9 @@ const Usuarios = () => {
                               </span>
                            )}
                         </td>
-                        <td className="py-3 px-6 text-center">{usuario.rol}</td>
                         <td className="py-3 px-6 text-center flex justify-center gap-2">
                            <button
-                              onClick={() => handleEditUser(usuario.id)}
+                              onClick={() => handleEditUsuario(usuario.id)}
                               className="bg-blue-500 text-lg hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full">
                               <MdEdit />
                            </button>
@@ -157,45 +176,48 @@ const Usuarios = () => {
             </div>
          </div>
 
-         {isEditModalOpen && (
+         {isEditModalOpen === true ? (
             <Modal isOpen={isEditModalOpen} onClose={() => setIsEditModalOpen(false)}>
                <h2 className="text-2xl font-bold mb-2">Editar Usuario</h2>
                <div className="w-full h-[1px] bg-gray-300 mb-3"></div>
                <form
                   className="w-[500px]  flex flex-col justify-center gap-4 "
-                  onSubmit={handleUpdateUser}>
+                  onSubmit={handleUpdateUsuario}>
                   <input
                      className="p-2 border border-gray-300 rounded-md outline-none"
                      type="text"
                      placeholder="Nombre"
-                     value={editUser.nombre}
-                     onChange={(e) => setEditUser({ ...editUser, nombre: e.target.value })}
-                     required
-                  />
-                  <input
-                     className="p-2 border border-gray-300 rounded-md outline-none"
-                     type="email"
-                     placeholder="Correo"
-                     value={editUser.correo}
-                     onChange={(e) => setEditUser({ ...editUser, correo: e.target.value })}
-                     required
-                  />
-                  <input
-                     className="p-2 border border-gray-300 rounded-md outline-none"
-                     type="password"
-                     placeholder="Contraseña"
-                     value={editUser.password}
-                     onChange={(e) => setEditUser({ ...editUser, password: e.target.value })}
+                     value={editUsuario.nombre}
+                     onChange={(e) => setEditUsuario({ ...editUsuario, nombre: e.target.value })}
                      required
                   />
                   <input
                      className="p-2 border border-gray-300 rounded-md outline-none"
                      type="text"
-                     placeholder="Rol"
-                     value={editUser.rol}
-                     onChange={(e) => setEditUser({ ...editUser, rol: e.target.value })}
+                     placeholder="Correo"
+                     value={editUsuario.correo}
+                     onChange={(e) => setEditUsuario({ ...editUsuario, correo: e.target.value })}
                      required
                   />
+                  <select
+                     className="p-2 border border-gray-300 rounded-md outline-none"
+                     value={editUsuario.rol}
+                     onChange={(e) => setEditUsuario({ ...editUsuario, rol: e.target.value })}
+                     required
+                  >
+                     <option value="admin">Administrador</option>
+                     <option value="usuario">Usuario</option>
+                  </select>
+                  <select
+                     className="p-2 border border-gray-300 rounded-md outline-none"
+                     value={editUsuario.activo}
+                     onChange={(e) => setEditUsuario({ ...editUsuario, activo: e.target.value })}
+                     required
+                  >
+                     <option disabled value="">Selecciona un estado</option>
+                     <option value={'true'}>Activo</option>
+                     <option value={'false'}>Inactivo</option>
+                  </select>
                   <div className="flex justify-end gap-2">
                      <button
                         type="button"
@@ -205,49 +227,54 @@ const Usuarios = () => {
                      </button>
                      <button
                         type="submit"
+                        onClick={handleUpdateUsuario}
                         className="bg-blue-500 text-white font-bold py-2 px-4 rounded-md">
                         Editar
                      </button>
                   </div>
                </form>
             </Modal>
-         )}
+         ) :
+            null
+         }
 
          <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
             <h2 className="text-2xl font-bold mb-2">Agregar Usuario</h2>
             <div className="w-full h-[1px] bg-gray-300 mb-3"></div>
             <form
                className="w-[500px]  flex flex-col justify-center gap-4 "
-               onSubmit={handleAddUser}>
+               onSubmit={handleAddUsuario}>
                <input
                   className="p-2 border border-gray-300 rounded-md outline-none"
                   type="text"
                   placeholder="Nombre"
-                  value={newUser.nombre}
-                  onChange={(e) => setNewUser({ ...newUser, nombre: e.target.value })} required
-               />
-               <input
-                  className="p-2 border border-gray-300 rounded-md outline-none"
-                  type="email"
-                  placeholder="Correo"
-                  value={newUser.correo}
-                  onChange={(e) => setNewUser({ ...newUser, correo: e.target.value })}
-                  required
-               />
-               <input
-                  className="p-2 border border-gray-300 rounded-md outline-none"
-                  type="password"
-                  placeholder="Contraseña"
-                  value={newUser.password}
-                  onChange={(e) => setNewUser({ ...newUser, password: e.target.value })}
-                  required
+                  value={newUsuario.nombre}
+                  onChange={(e) => setNewUsuario({ ...newUsuario, nombre: e.target.value })} required
                />
                <input
                   className="p-2 border border-gray-300 rounded-md outline-none"
                   type="text"
-                  placeholder="Rol"
-                  value={newUser.rol}
-                  onChange={(e) => setNewUser({ ...newUser, rol: e.target.value })}
+                  placeholder="Correo"
+                  value={newUsuario.correo}
+                  onChange={(e) => setNewUsuario({ ...newUsuario, correo: e.target.value })}
+                  required
+               />
+               <select
+                  className="p-2 border border-gray-300 rounded-md outline-none"
+                  value={newUsuario.rol}
+                  onChange={(e) => setNewUsuario({ ...newUsuario, rol: e.target.value })}
+                  required
+               >
+                  <option disabled value="">Selecciona un rol</option>
+                  <option value="admin">Administrador</option>
+                  <option value="usuario">Usuario</option>
+               </select>
+               <input
+                  className="p-2 border border-gray-300 rounded-md outline-none"
+                  type="text"
+                  placeholder="Contraseña"
+                  value={newUsuario.password}
+                  onChange={(e) => setNewUsuario({ ...newUsuario, password: e.target.value })}
                   required
                />
                <div className="flex justify-end gap-2">
@@ -264,7 +291,7 @@ const Usuarios = () => {
                   </button>
                </div>
             </form>
-         </Modal> */}
+         </Modal>
 
       </div>
    )
