@@ -1,7 +1,7 @@
 'use client'
 import Image from 'next/image';
 import logo from '../../../../asset/imgs/logo2.svg';
-import { FaShoppingCart, FaUsers, FaCalculator, FaUser, FaShoppingBasket, FaCog, FaClipboardList } from 'react-icons/fa';
+import { FaShoppingCart, FaUsers, FaCalculator, FaShoppingBasket, FaCog, FaClipboardList } from 'react-icons/fa';
 
 const Sidebar = ({isOpen, setIsOpen}) => {
  
