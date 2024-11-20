@@ -31,22 +31,25 @@ const logicPage = () => {
             const response = await fetch('http://localhost:3001/login', {
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'application/json',
+                    'Content-Type': 'application/json'
                 },
-                body: JSON.stringify(payload), // Enviar los datos del formulario
-            });
+                body: JSON.stringify(payload)
+            })
+
 
             const result = await response.json();
-
+            console.log(result);
             if (response.ok) {
-                // Mostrar mensaje de éxito con toast
-                toast.success("¡Inicio de sesión exitoso!");
-                console.log('Usuario autenticado:', result.user);
-                // Redirigir al usuario o guardar un token
-                router.push('/Home'); // Ejemplo de redirección
-            } else {
-                // Mostrar mensaje de error con toast
-                toast.error("Error al iniciar sesión.");
+                if(result[0].rol == 'admin'){
+                    toast.success("¡Inicio de sesión exitoso!");
+                    console.log('Usuario autenticado:', result.user);
+                    // Redirigir al usuario o guardar un token
+                    router.push(`/Home?id=${result.id}`); // Ejemplo de redirección
+                }else{
+                    toast.error("¡No tienes permisos para acceder a esta sección!");
+                }
+            }else{
+                toast.error("¡Error de credenciales!");
             }
         } catch (error) {
             console.error('Error al realizar el login:', error);
