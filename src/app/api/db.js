@@ -24,35 +24,12 @@ export const getUsuarios = async (correo, password) => {
 };
 
 
-// export const getUsuarios = async ({correo, password}) => {
-//     let queryUsuarios = 'SELECT * FROM usuarios WHERE correo = $1 AND password = $2';
-//     try {
-//         const results = await pool.query(queryUsuarios, [correo, password]);
-//         if (results.rows.length > 0) {
-//             console.log('Consulta exitosa');
-//             console.log(results.rows);
-//             return results.rows;
-//         } else {
-//             console.log('No se encontraron resultados');
-//             return null;
-//         }
-//     } catch (error) {
-//         console.error('Error en la consulta:', error);
-//         throw error;
-//     }
-// }
-
-// export {getUsuarios};
-
-
 
 const getProductos = async () => {
     let queryProductos = 'SELECT * FROM productos';
     pool
         .query(queryProductos)
         .then((results) => {
-            console.log('Consulta exitosa');
-            console.log(results.rows);
         })
         .catch(error => {
             console.error('Error en la consulta:', error);

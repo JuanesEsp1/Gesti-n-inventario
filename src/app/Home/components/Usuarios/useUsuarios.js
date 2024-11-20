@@ -55,7 +55,6 @@ const useUsuarios = () => {
 
       const result = await response.json(); // Obtener el resultado en formato JSON
       orderUsuariosById(result);
-      console.log('Datos obtenidos:', result); // Imprimir los datos obtenidos
       return result; // Retornar la información de productos
     } catch (error) {
       console.error('Error:', error.message); // Loguear el error
@@ -99,7 +98,7 @@ const useUsuarios = () => {
 
   const handleUpdateUsuario = async (e) => {
       e.preventDefault();
-      let estado = editUsuario.activo == 'true'? true : false;
+      let estado = editUsuario.activo == 'true' || editUsuario.activo == true ? true : false;
 
     const updatedUsuario = {
       id: editUsuario.id,
@@ -108,7 +107,6 @@ const useUsuarios = () => {
       rol: editUsuario.rol, 
       activo: estado
       };
-      console.log(updatedUsuario);
     try {
       const response = await fetch(`http://localhost:3001/usuarios/${editUsuario.id}`, {
         method: 'PUT',
@@ -147,7 +145,6 @@ const useUsuarios = () => {
       });
       if (response.ok) {  
         setRefreshData(!refreshData);
-        console.log('Usuario eliminado correctamente');
       } else {
         console.error('Error al eliminar el usuario');
       }

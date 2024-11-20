@@ -55,7 +55,6 @@ const useProductos = () => {
 
       const result = await response.json(); // Obtener el resultado en formato JSON
       orderProductsById(result);
-      console.log('Datos obtenidos:', result); // Imprimir los datos obtenidos
       return result; // Retornar la información de productos
     } catch (error) {
       console.error('Error:', error.message); // Loguear el error
@@ -143,7 +142,6 @@ const useProductos = () => {
       });
       if (response.ok) {  
         setRefreshData(!refreshData);
-        console.log('Producto eliminado correctamente');
       } else {
         console.error('Error al eliminar el producto');
       }

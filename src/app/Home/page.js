@@ -1,5 +1,5 @@
 'use client';
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Sidebar from "./components/Sidebar/Sidebar";
 import Clientes from "./components/Clientes/Clientes";
 import Productos from "./components/Productos/Productos";
@@ -8,15 +8,42 @@ import Ventas from "./components/Ventas/Ventas";
 import Inventario from "./components/Inventario/Inventario";
 import { IoIosArrowDown } from "react-icons/io";
 import { HiUserCircle } from "react-icons/hi2";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 
 const Home = () => {
  
     const router = useRouter()
     const [isOpen, setIsOpen] = useState(3);
     const [stateProfile, setStateProfile] = useState(false)
+    const [dataUser, setDataUser] = useState({})
+    const searchParams = useSearchParams();
 
-    
+    const getIdFromUrl = () => {
+        const id = searchParams.get('id');
+        return id || null;
+    }
+
+    useEffect(() => {
+        const fetchUser = async () => {
+            try {
+                const urlId = getIdFromUrl();
+                if (urlId) {
+                    const response = await fetch(`http://localhost:3001/usuarios/${urlId}`);
+                    const data = await response.json();
+                    setDataUser(data[0])
+                }
+            } catch (error) {
+                console.error('Error al buscar usuario:', error);
+            }
+        };
+
+        fetchUser();
+
+        // Función de limpieza
+        return () => {
+            // Limpiar cualquier suscripción o efecto secundario aquí
+        };
+    }, [searchParams]);
 
     return (
         <div className="w-full h-full flex flex-row">
@@ -38,12 +65,12 @@ const Home = () => {
                             <HiUserCircle className="text-6xl text-[#5555AD]"/>
                         </div>
                         <div onClick={()=>setStateProfile(!stateProfile)} className="flex flex-row gap-2 items-center cursor-pointer">
-                            <div>Juanes Espinosa</div>
+                            <div>{dataUser.nombre}</div>
                             <IoIosArrowDown className=""/>
                         </div>
                         {
                             stateProfile && (
-                                <div onClick={()=>router.back('')} className="absolute -bottom-6 -right-1 font-medium flex justify-center items-center  cursor-pointer w-44 h-11 bg-white rounded-md shadow-lg shadow-slate-400 hover:bg-slate-100">
+                                <div onClick={()=>router.push('/')} className="absolute -bottom-6 -right-1 font-medium flex justify-center items-center  cursor-pointer w-44 h-11 bg-white rounded-md shadow-lg shadow-slate-400 hover:bg-slate-100">
                                     Cerrar Sesión
                                 </div>
                             )

@@ -27,9 +27,6 @@ export const useVentas = () => {
         getDataInit();
     }, [refreshData]);
 
-    useEffect(() => {
-        console.log('productosCarrito: ', productosCarrito);
-    }, [productosCarrito]);
 
     useEffect(() => {
         const resultados = producto.filter(producto =>
@@ -47,7 +44,6 @@ export const useVentas = () => {
             }
             const result = await response.json();
             orderProductsById(result);
-            console.log('Datos obtenidos:', result);
             return result;
         } catch (error) {
             console.error('Error:', error.message);
@@ -96,7 +92,6 @@ export const useVentas = () => {
         // Calcular el nuevo total
         setTotal(prevTotal => prevTotal + parseFloat(productoNuevo.precio));
 
-        console.log('total: ', total);
     }
 
     const handleAddProduct = (idProducto) => {
